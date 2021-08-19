@@ -1,4 +1,6 @@
+import { operator } from './StockAdjustForm';
+
 export interface StockCreateForm {
-    sku: String;
+    sku: string;
     quantity: number;
 }

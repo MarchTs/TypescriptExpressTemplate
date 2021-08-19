@@ -15,7 +15,7 @@ model Product {
   created   DateTime    @default(now())
   updated   DateTime    @default(now())
   isDelete  Boolean     @default(false)
-  Stock     Stock[]
+  Stocks    Stock[]
   Parent    Product?    @relation(fields: [parentSku], references: [sku])
   Children  Product[]   @relation("ProductToProduct")
 }

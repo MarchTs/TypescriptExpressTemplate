@@ -30,6 +30,43 @@ class StockRepository {
                 else return { statusCode: 500, message: error.message };
             });
     }
+
+    find(sku: string): Promise<Stock | null> {
+        return prisma.stock.findFirst({ where: { sku: sku } });
+    }
+
+    findMany(skus: string[]): Promise<Stock[]> {
+        return prisma.stock.findMany({ where: { sku: { in: skus } } });
+    }
+
+    update(sku: string, quantity: number, stock: Stock): Promise<Stock> {
+        return prisma.stock.update({
+            data: {
+                sku: sku,
+                quantity: quantity,
+                updated: new Date(),
+                created: stock.created,
+                isDelete: false,
+            },
+            where: { sku: sku },
+        });
+    }
+
+    updateMany(stocks: Stock[]): Promise<Stock[]> {
+        const listExecute = stocks.map((stock) =>
+            prisma.stock.update({
+                data: {
+                    sku: stock.sku,
+                    quantity: stock.quantity,
+                    updated: new Date(),
+                    created: stock.created,
+                    isDelete: false,
+                },
+                where: { sku: stock.sku },
+            })
+        );
+        return prisma.$transaction(listExecute);
+    }
 }
 
 export = new StockRepository();

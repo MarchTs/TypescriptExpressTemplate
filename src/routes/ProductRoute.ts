@@ -19,20 +19,18 @@ router.post('/', async (req: Request, res: Response) => {
                 })
             );
         }
-
-        res.status(400).send('error');
     });
 });
 
 router.get('/', async (req: Request, res: Response) => {
-    ProductFacade.list([]).then((response) => {
+    const skus = req.query.skus ? <string[]>req.query.skus : [];
+
+    ProductFacade.list(skus).then((response) => {
         if (instanceOfResponseError(response)) {
             res.status(response.statusCode).json({ error: response.message });
         } else {
             res.json(response);
         }
-
-        res.status(400).send('error');
     });
 });
 

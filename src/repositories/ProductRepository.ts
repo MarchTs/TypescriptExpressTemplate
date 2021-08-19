@@ -1,4 +1,4 @@
-import { PrismaClient, Product } from '@prisma/client';
+import { PrismaClient, Product, ProductType } from '@prisma/client';
 import { ProductCreateForm } from '../forms/ProductCreateForm';
 import { ResponseError } from '../models/ResponseError';
 
@@ -28,8 +28,29 @@ class ProductRepository {
             });
     }
 
-    list(skus: String[]): Promise<ResponseError | Product[]> {
-        return prisma.product.findMany();
+    list(skus: string[]): Promise<ResponseError | Product[]> {
+        let where = {
+            sku: {},
+            OR: [
+                { type: ProductType.standalone, Stocks: { some: {} } },
+                { type: ProductType.parent },
+            ],
+        };
+        if (skus.length > 0) where.sku = { in: skus };
+        const result = prisma.product.findMany({
+            where: where,
+            orderBy: { sku: 'asc' },
+        });
+
+        return result;
+    }
+
+    listChild(parentSku: string): Promise<ResponseError | Product[]> {
+        const result = prisma.product.findMany({
+            where: { type: ProductType.child, parentSku: parentSku, Stocks: { some: {} } },
+        });
+
+        return result;
     }
 }
 
