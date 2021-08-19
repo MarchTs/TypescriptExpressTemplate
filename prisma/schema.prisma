@@ -1,0 +1,36 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Product {
+  sku       String      @unique
+  type      ProductType
+  name      String
+  parentSku String?
+  created   DateTime    @default(now())
+  updated   DateTime    @default(now())
+  isDelete  Boolean     @default(false)
+  Stock     Stock[]
+  Parent    Product?    @relation(fields: [parentSku], references: [sku])
+  Children  Product[]   @relation("ProductToProduct")
+}
+
+model Stock {
+  sku      String   @unique
+  quantity Int      @default(0)
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
+  isDelete Boolean  @default(false)
+  Product  Product  @relation(fields: [sku], references: [sku])
+}
+
+enum ProductType {
+  parent
+  child
+  standalone
+}
