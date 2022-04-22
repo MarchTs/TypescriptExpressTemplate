@@ -1,13 +1,7 @@
 {
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true
-        },
-        "editor.formatOnSave": true
-    },
     "trailingComma": "es5",
     "tabWidth": 4,
     "semi": true,
-    "singleQuote": true
+    "singleQuote": true,
+    "source.organizeImports": true
 }

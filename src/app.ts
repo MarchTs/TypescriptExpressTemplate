@@ -1,6 +1,5 @@
 import express, { Application, Request, Response } from 'express';
-import ProductRouter from './routes/ProductRoute';
-import StockRoute from './routes/StockRoute';
+import router from './router';
 
 const port = 3000;
 
@@ -8,8 +7,7 @@ const app: Application = express();
 
 app.use(express.json());
 
-app.use('/products', ProductRouter);
-app.use('/stocks', StockRoute);
+app.use(router);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World!');

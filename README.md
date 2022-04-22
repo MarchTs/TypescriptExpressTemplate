@@ -2,8 +2,12 @@
 
 ## file .env
 
-```
+```xsl
 environment=production
+DATABASE_USER=raccoon
+DATABASE_PASSWORD=test
+DATABASE_DB=raccoon-db
+DATABASE_URL="postgresql://raccoon:test@localhost:5432/raccoon-db?schema=public"
 port=3000
 ```
 
@@ -36,8 +40,7 @@ port=3000
         | Refactor | rename variable, class, function, file or reformat code |
         | Rewrite  | rewrite code...                                         |
 
-3. update version on package.json
-4. create pull request to `dev`
+3. create pull request to `dev`
 
 # branch strategy
 
@@ -50,3 +53,31 @@ master -> dev -> feature
 | master         | on production                 |
 | dev            | on develop environment        |
 | {feature_name} | on local or under development |
+
+# Code Structure
+
+## Controller
+
+    route setup
+
+## Facade
+
+## Service
+
+## Repository
+
+## Form
+
+## Entity
+
+## Model
+
+## Message
+
+---
+
+# TODO
+
+1. swagger
+2. ResponseModel
+3. [Optional] EnvironmentConfig
